@@ -14,9 +14,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class MainPane extends JPanel{
-	ImageIcon workCharIMG = new ImageIcon(getClass().getResource("/images/cloud-refresh.png"));
-	ImageIcon pauseCharIMG = new ImageIcon(getClass().getResource("/images/cloud-up.png"));
-	ImageIcon sleepCharIMG = new ImageIcon(getClass().getResource("/images/cloud-error.png"));
+	ImageIcon workCharIMG = new ImageIcon(getClass().getResource("/images/idle2.png"));
+	ImageIcon pauseCharIMG = new ImageIcon(getClass().getResource("/images/sit.png"));
+	ImageIcon sleepCharIMG = new ImageIcon(getClass().getResource("/images/sit.png"));
 	
 	JLabel workLabel, pauseLabel, sleepLabel, timeDisp, totalTimeDisp;
 	CardLayout charL;
@@ -78,9 +78,9 @@ public class MainPane extends JPanel{
 	}
 	
 	public void makeLabels(){
-		workLabel = new charLabel(workCharIMG);
-		pauseLabel = new charLabel(pauseCharIMG);
-		sleepLabel = new charLabel(sleepCharIMG);
+		workLabel = new charLabel(resizeImage(workCharIMG, 100));
+		pauseLabel = new charLabel(resizeImage(pauseCharIMG, 100));
+		sleepLabel = new charLabel(resizeImage(sleepCharIMG, 100));
 		
 		pauseLabel.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
@@ -159,4 +159,9 @@ public class MainPane extends JPanel{
 		return workCharIMG.getIconHeight();
 	}
 	
+	public ImageIcon resizeImage(ImageIcon icon, int size) {
+		Image img = icon.getImage();
+		Image ret = img.getScaledInstance(size, size, java.awt.Image.SCALE_FAST);
+		return new ImageIcon(ret);
+	}
 }

@@ -1,5 +1,6 @@
 package focusbox;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.locks.*;
@@ -11,11 +12,12 @@ import javax.swing.Timer;
 import static java.util.concurrent.TimeUnit.*;
 
 public class RunTimer implements Runnable {
-	ImageIcon workCharIMG = new ImageIcon(getClass().getResource("/images/cloud-refresh.png"));
-	ImageIcon alertCharIMG = new ImageIcon(getClass().getResource("/images/toaster.png"));
-	ImageIcon pauseCharIMG = new ImageIcon(getClass().getResource("/images/cloud-up.png"));
-	ImageIcon angryChar1IMG = new ImageIcon(getClass().getResource("/images/packman.png"));
-	ImageIcon angryChar2IMG = new ImageIcon(getClass().getResource("/images/eye.png"));
+	ImageIcon workChar1IMG = new ImageIcon(getClass().getResource("/images/idle1.png"));
+	ImageIcon workChar2IMG = new ImageIcon(getClass().getResource("/images/idle2.png"));
+	ImageIcon alertCharIMG = new ImageIcon(getClass().getResource("/images/alert.png"));
+	ImageIcon pauseCharIMG = new ImageIcon(getClass().getResource("/images/sit.png"));
+	ImageIcon angryChar1IMG = new ImageIcon(getClass().getResource("/images/angerup.png"));
+	ImageIcon angryChar2IMG = new ImageIcon(getClass().getResource("/images/angerdown.png"));
 	
 	MainProgram prog;
 	boolean stop, isBreak = false;
@@ -23,16 +25,21 @@ public class RunTimer implements Runnable {
 	lazyNotify lazy;
 	animateChar anim;
 	boolean runAlert, runLazy = false;
-	final int MINUTE = 60;
 	// Duration of time for working
-	int workDur = 30 * MINUTE;
+	int workDur = 1;
 	// Duration of break time in minutes
-	int breakDur = 20 * MINUTE;
+	int breakDur = 1/2;
 
 	
 	ReentrantLock lock = new ReentrantLock();
 	
 	public RunTimer(MainProgram p){
+		workChar1IMG = resizeImage(workChar1IMG, 100);
+		workChar2IMG = resizeImage(workChar2IMG, 100);
+		alertCharIMG = resizeImage(alertCharIMG, 100);
+		pauseCharIMG = resizeImage(pauseCharIMG, 100);
+		angryChar1IMG = resizeImage(angryChar1IMG, 100);
+		angryChar2IMG = resizeImage(angryChar2IMG, 100);
 		prog = p;
 		stop = true;
 	}
@@ -67,7 +74,7 @@ public class RunTimer implements Runnable {
 	}
 	
 	public void offBreak(){
-		((MainPane)prog.gui.mainPanel).workLabel.setIcon(workCharIMG);
+		((MainPane)prog.gui.mainPanel).pauseLabel.setIcon(workChar2IMG);
 		isBreak = false;
 		alert.reset();
 		lazy.reset();
@@ -77,8 +84,8 @@ public class RunTimer implements Runnable {
 		ScheduledThreadPoolExecutor eventPool = new ScheduledThreadPoolExecutor(5);
 		
 		eventPool.scheduleAtFixedRate(new changeTime(), 0, 1, SECONDS);
-		eventPool.scheduleAtFixedRate(alert = new alertNotify(), 0, 1, SECONDS);
-		eventPool.scheduleAtFixedRate(lazy = new lazyNotify(), 0, 1, SECONDS);
+		eventPool.scheduleAtFixedRate(alert = new alertNotify(), 0, 1, MINUTES);
+		eventPool.scheduleAtFixedRate(lazy = new lazyNotify(), 0, 1, MINUTES);
 		eventPool.scheduleAtFixedRate(anim = new animateChar(), 0, 10, MILLISECONDS);
 	}
 	
@@ -134,35 +141,56 @@ public class RunTimer implements Runnable {
 	}
 	
 	class animateChar implements Runnable{
-		int frame;
+		boolean frame;
+		int count;
+		int buffer = 50;
 		public animateChar(){
-			frame = 0;
+			frame = true;
+			count = 0;
 		}
 		public void run(){
 			if(runAlert && !isBreak)
 				alertAnimate();
 			else if(runLazy && isBreak)
 				lazyAnimate();
+			else if(!isBreak && !runAlert) {
+				idleAnimate();
+			}
+			count++;
+			if(count > buffer) {
+				frame = !frame;
+				count = 0;
+			}
+		}
+		public void idleAnimate(){
+			if(!frame){
+				((MainPane)prog.gui.mainPanel).workLabel.setIcon(workChar1IMG);
+			}
+			else if(frame){
+				((MainPane)prog.gui.mainPanel).workLabel.setIcon(workChar2IMG);
+			}
 		}
 		public void alertAnimate(){
-			if(frame == 0){
+			if(!frame){
 				((MainPane)prog.gui.mainPanel).workLabel.setIcon(alertCharIMG);
-				frame = 1;
 			}
-			else if(frame == 1){
-				((MainPane)prog.gui.mainPanel).workLabel.setIcon(workCharIMG);
-				frame = 0;
+			else if(frame){
+				((MainPane)prog.gui.mainPanel).workLabel.setIcon(workChar2IMG);
 			}
 		}
 		public void lazyAnimate(){
-			if(frame == 0){
+			if(!frame){
 				((MainPane)prog.gui.mainPanel).pauseLabel.setIcon(angryChar1IMG);
-				frame = 1;
 			}
-			else if(frame == 1){
+			else if(frame){
 				((MainPane)prog.gui.mainPanel).pauseLabel.setIcon(angryChar2IMG);
-				frame = 0;
 			}
 		}
+	}
+	
+	public ImageIcon resizeImage(ImageIcon icon, int size) {
+		Image img = icon.getImage();
+		Image ret = img.getScaledInstance(size, size, java.awt.Image.SCALE_FAST);
+		return new ImageIcon(ret);
 	}
 }
