@@ -60,7 +60,7 @@ li>ul {
     top: 0;
     height: 25vh;
     width: 100%;
-    background-color: #F2C94C;
+    /*background-color: #F2C94C;*/
     box-shadow: inset 0px -20px 20px -20px rgba(0,0,0,0.2);
     z-index: 1;
 }
