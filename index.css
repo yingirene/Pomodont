@@ -1,0 +1,186 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Menlo;
+    font-size: 80%;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    font-size: 5vw;
+}
+
+h5 {
+    margin: 0 0 1.2vw;
+    font-size: 1.2vh;
+    font-weight: normal;
+}
+
+ul {
+    line-height: 5px;
+    padding: 0;
+    margin: 0;
+    list-style-position: inside;
+}
+
+li {
+    line-height: 130%;
+}
+
+li>ul {
+    padding-left: 20px;
+    line-height: 3px;
+}
+
+#nav {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    background-color: rgba(240, 240, 255, 0.5);
+    height: 70px;
+    width: 100vw;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 70px;
+    word-spacing: 90px;
+}
+
+#nav a {
+    font-family: Menlo;
+    font-size: 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: white;
+}
+
+.bg_rect {
+    position: absolute;
+    top: 0;
+    height: 25vh;
+    width: 100%;
+    background-color: #F2C94C;
+    box-shadow: inset 0px -20px 20px -20px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.bg_rect>div {
+    height: 100%;
+    background: url('page_assets/bird_pattern_md.png') no-repeat center center;
+    background-size: cover;
+}
+
+.img_card {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    background: #E5E5E5;
+    box-shadow: inset 0px 13px 6px -10px rgba(0,0,0,0.2);
+    text-align: center;
+    height: auto;
+}
+
+.img_card>div {
+    padding: 1.5vw 1.5vw 0;
+}
+
+.img_card>div>img {
+    width: 100%;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
+}
+
+.img_card>p {
+    display: inline-block;
+    width: 100%;
+    font-size: 100%;
+    color: rgba(0,0,0,0.5);
+    padding-bottom: 100%:
+}
+
+.banner {
+    padding-top: 2.5vw;
+    text-align: center;
+}
+
+.text {
+    margin-top: 1vh;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 130%;
+}
+
+.text>h2 {
+    margin: 0;
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+}
+
+.container>div {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.wrapper {
+    border-radius: 1.5%;
+    width: 80vw;
+    max-width: 900px;
+    padding: 0 2vw;
+    margin: 12vh auto;
+    background-color: white;
+    box-shadow: 0px 5px 20px 3px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+.wrapper>div {
+    border-radius: 1.5%;
+}
+
+.content {
+    margin: auto;
+    height: 70%;
+    width: 85%;
+    padding: 20px;
+}
+
+.content a, .footer a {
+    text-decoration: none;
+    color: black;
+    box-shadow: inset 0px -12px 0px -10px black;
+    -webkit-transition: box-shadow 0.05s, color 0.07s;
+    transition: box-shadow 0.05s, color 0.07s;
+}
+
+.content a:hover, .footer a:hover {
+    color: white;
+    box-shadow: inset 0px -30px 0px -10px black;
+}
+
+.footer {
+    font-size: 1.2vw;
+    text-align: center;
+    width: 100%;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: -1.3vw;
+    margin-bottom: 1.3vw;
+}
+
+.bg {
+    position: relative;
+    height: 100%;
+    width: 80vw;
+    top: 18vh;
+    margin: auto;
+    background-color: white;
+    border-radius: 1.5%;
+    box-shadow: 0px 5px 20px 3px rgba(0,0,0,0.3);
+    z-index: 2;
+}
+
+#main {
+    z-index: 100;
+}
